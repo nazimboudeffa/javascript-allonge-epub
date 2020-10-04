@@ -106,3 +106,65 @@ Si nous obtenons une valeur d'un tableau en utilisant le suffixe `[]`, c'est exa
         
     a[0] === x && a[1] === y && a[2] === z
       //=> true
+
+## References and Objects {#objects}
+
+JavaScript fournit également des objets. Le mot «objet» est chargé dans les cercles de programmation, en raison de l'utilisation répandue du terme «programmation orientée objet» qui a été inventé par Alan Kay mais qui depuis a fini par signifier beaucoup, beaucoup de choses pour de nombreuses personnes différentes.
+
+In JavaScript, un objet[^pojo] est une map des noms aux valeurs, un peu comme un environnement. La syntaxe la plus courante pour créer un objet est simple:
+
+[^pojo]: La tradition voudrait que nous appelions des objets qui ne contiennent aucune fonction "POJOs," c'est-à-dire des objets JavaScript simples.
+
+    { year: 2012, month: 6, day: 14 }
+    
+Deux objets créés de cette manière ont des identités différentes, tout comme des tableaux:
+
+    { year: 2012, month: 6, day: 14 } === { year: 2012, month: 6, day: 14 }
+      //=> false
+
+Les objets utilisent `[]` pour accéder aux valeurs par nom, en utilisant une chaîne:
+
+    { year: 2012, month: 6, day: 14 }['day']
+      //=> 14
+
+Les valeurs contenues dans un objet fonctionnent comme les valeurs contenues dans un tableau:
+
+    var unique = function () {
+                    return function () {}
+                  },
+        x = unique(),
+        y = unique(),
+        z = unique(),
+        o = { a: x, b: y, c: z };
+
+    o['a'] === x && o['b'] === y && o['c'] === z
+      //=> true
+
+Les noms n'ont pas besoin d'être des chaînes alphanumériques. Pour toute autre chose, mettez l'étiquette entre guillemets:
+
+    { 'first name': 'reginald', 'last name': 'lewis' }['first name']
+      //=> 'reginald'
+
+Si le nom est une chaîne alphanumérique conforme aux mêmes règles que les noms de variables, il existe une syntaxe simplifiée pour accéder aux valeurs:
+
+    { year: 2012, month: 6, day: 14 }['day'] ===
+        { year: 2012, month: 6, day: 14 }.day
+      //=> true
+
+Tous les conteneurs peuvent contenir n'importe quelle valeur, y compris des fonctions ou d'autres conteneurs:
+
+    var Mathematics = {
+      abs: function (a) {
+             return a < 0 ? -a : a
+           }
+    };
+
+    Mathematics.abs(-5)
+      //=> 5
+
+Funny we should mention `Mathematics`. If you recall, JavaScript provides a global environment that contains some existing objects that have handy functions you can use. One of them is called `Math`, and it contains functions for `abs`, `max`, `min`, and many others. Since it is always available, you can use it in any environment provided you don't shadow `Math`.
+
+C'est drôle de mentionner `Mathématiques`. Si vous vous souvenez bien, JavaScript fournit un environnement global qui contient des objets existants dotés de fonctions pratiques que vous pouvez utiliser. L'un d'eux s'appelle `Math`, et il contient des fonctions pour `abs`,` max`, `min` et bien d'autres. Comme il est toujours disponible, vous pouvez l'utiliser dans n'importe quel environnement à condition de ne pas observer `Math`.
+
+    Math.abs(-5)
+      //=> 5
