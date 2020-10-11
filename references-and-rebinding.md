@@ -218,3 +218,58 @@ Comme pour évaluer les étiquettes de variables, lorsqu'une liaison est rebondi
 
 ![Cupping Grinds](images/cupping.jpg)
 
+### mutation and aliases
+
+Maintenant que nous pouvons réattribuer des choses, il y a un autre facteur important à considérer: certaines valeurs peuvent *muter*. Leurs identités restent les mêmes, mais pas leur structure. Plus précisément, les tableaux et les objets peuvent muter. Rappelez-vous que vous pouvez accéder à une valeur depuis un tableau ou un objet en utilisant `[]`. Vous pouvez également réaffecter une valeur en utilisant `[]`:
+
+    var oneTwoThree = [1, 2, 3];
+    oneTwoThree[0] = 'one';
+    oneTwoThree
+      //=> [ 'one', 2, 3 ]
+
+Vous pouvez même ajouter une valeur:
+
+    var oneTwoThree = [1, 2, 3];
+    oneTwoThree[3] = 'four';
+    oneTwoThree
+      //=> [ 1, 2, 3, 'four' ]
+
+Vous pouvez faire la même chose avec les deux syntaxes pour accéder aux objets:
+
+    var name = {firstName: 'Leonard', lastName: 'Braithwaite'};
+    name.middleName = 'Austin'
+    name
+      //=> { firstName: 'Leonard',
+      #     lastName: 'Braithwaite',
+      #     middleName: 'Austin' }
+
+`Halloween` et `allHallowsEve` sont tous deux liés à la même valeur de tableau dans l'environnement local. Et aussi:
+
+    var allHallowsEve = [2012, 10, 31];
+    (function (halloween) {
+      // ...
+    })(allHallowsEve);
+    
+Il existe deux environnements imbriqués et chacun lie un nom à la même valeur de tableau. Dans chacun de ces exemples, nous avons créé deux *alias* pour la même valeur. Avant de pouvoir réaffecter les choses, le point le plus important à ce sujet est que les identités étaient les mêmes, car elles avaient la même valeur.
+
+Ceci est vital. Considérez ce que nous savons déjà sur l'observation:
+
+    var allHallowsEve = [2012, 10, 31];
+    (function (halloween) {
+      halloween = [2013, 10, 31];
+    })(allHallowsEve);
+    allHallowsEve
+      //=> [2012, 10, 31]
+
+La valeur externe de `allHallowsEve` n'a pas été modifiée car tout ce que nous avons fait était de relier le nom «halloween» dans l'environnement interne. Cependant, que se passe-t-il si nous *mutons* la valeur dans l'environnement interne?
+
+    var allHallowsEve = [2012, 10, 31];
+    (function (halloween) {
+      halloween[0] = 2013;
+    })(allHallowsEve);
+    allHallowsEve
+      //=> [2013, 10, 31]
+      
+Ceci est différent. Nous n'avons pas rebondi le nom interne vers une variable différente, nous avons muté la valeur que les deux liaisons partagent. Maintenant que nous avons terminé avec la mutation et les alias, jetons un coup d'œil.
+
+T> JavaScript permet la réaffectation de nouvelles valeurs à des liaisons existantes, ainsi que la réaffectation et l'affectation de nouvelles valeurs à des éléments de conteneurs tels que des tableaux et des objets. La mutation d'objets existants a des implications spéciales lorsque deux liaisons sont des alias de même valeur.
