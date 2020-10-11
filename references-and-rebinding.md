@@ -273,3 +273,5 @@ La valeur externe de `allHallowsEve` n'a pas été modifiée car tout ce que nou
 Ceci est différent. Nous n'avons pas rebondi le nom interne vers une variable différente, nous avons muté la valeur que les deux liaisons partagent. Maintenant que nous avons terminé avec la mutation et les alias, jetons un coup d'œil.
 
 T> JavaScript permet la réaffectation de nouvelles valeurs à des liaisons existantes, ainsi que la réaffectation et l'affectation de nouvelles valeurs à des éléments de conteneurs tels que des tableaux et des objets. La mutation d'objets existants a des implications spéciales lorsque deux liaisons sont des alias de même valeur.
+
+TODO : markdown/References and Rebinding/var.md
