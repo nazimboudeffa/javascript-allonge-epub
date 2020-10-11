@@ -168,3 +168,53 @@ C'est drôle de mentionner `Mathématiques`. Si vous vous souvenez bien, JavaScr
 
     Math.abs(-5)
       //=> 5
+## Reassignment and Mutation {#reassignment}
+
+Comme la plupart des langages de programmation impératifs, JavaScript vous permet de réaffecter la valeur des variables. La syntaxe est familière aux utilisateurs des langages les plus courants:
+
+    var age = 49;
+    age = 50;
+    age
+      //=> 50
+      
+Nous avons pris le temps d'examiner attentivement ce qui se passe avec les liaisons dans les environnements. Prenons le temps d'explorer ce qui se passe avec la réaffectation de valeurs à des variables. La clé est de comprendre que nous relions une valeur différente au même nom dans le même environnement.
+
+Considérons donc ce qui se passe avec une variable ombrée:
+
+    (function () {
+      var age = 49;
+      (function () {
+        var age = 50;
+      })();
+      return age;
+    })()
+      //=> 49
+
+Lier `50` au vieillissement dans l'environnement intérieur ne change pas `l'âge` dans l'environnement extérieur parce que la liaison de `l'âge` dans l'environnement intérieur fait de l'ombre à la liaison de `l'âge` dans l'environnement extérieur. On passe de:
+
+    {age: 49, '..': global-environment}
+
+Vers:
+
+    {age: 50, '..': {age: 49, '..': global-environment}}
+
+Et retours vers:
+
+    {age: 49, '..': global-environment}
+
+{pagebreak}    
+Cependant, si nous n'observons pas `age` en utilisant explicitement `var`, le réaffecter dans un environnement imbriqué modifie l'original:
+
+    (function () {
+      var age = 49;
+      (function () {
+        age = 50;
+      })();
+      return age;
+    })()
+      //=> 50
+
+Comme pour évaluer les étiquettes de variables, lorsqu'une liaison est rebondie, JavaScript recherche la liaison dans l'environnement actuel, puis chaque ancêtre à son tour jusqu'à ce qu'il en trouve un. Il relie ensuite le nom dans cet environnement.
+
+![Cupping Grinds](images/cupping.jpg)
+
